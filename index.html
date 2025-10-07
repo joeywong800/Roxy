@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="description" content="MOVY - Stream unlimited movies and TV shows">
+    <meta name="theme-color" content="#e50914">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>MOVY</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23e50914;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23b20710;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23grad)'/%3E%3Ctext x='50' y='70' font-family='Arial Black, sans-serif' font-size='45' font-weight='bold' fill='white' text-anchor='middle'%3EM%3C/text%3E%3Cpath d='M20,25 L30,25 L35,35 L40,25 L50,25 L50,50 L40,50 L40,35 L35,45 L30,35 L30,50 L20,50 Z' fill='white' opacity='0.3'/%3E%3Cpath d='M55,25 L75,25 L75,50 L65,50 L65,40 L60,40 L60,50 L50,50 L50,25 L60,25 L60,35 L65,35 L65,25' fill='white' opacity='0.3'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://api.themoviedb.org">
+    <link rel="preconnect" href="https://image.tmdb.org/t/p">
+    <link rel="preconnect" href="https://www.vidking.net">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header>
+            <div class="container">
+                <div class="logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
+                        <circle cx="6" cy="8" r="1.5" opacity="0.7"/>
+                        <circle cx="12" cy="8" r="1.5" opacity="0.7"/>
+                        <circle cx="18" cy="8" r="1.5" opacity="0.7"/>
+                    </svg>
+                    <span class="logo-text">MOVY</span>
+                </div>
+                <nav class="main-nav">
+                    <a href="#" class="nav-link" id="homeLink">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        Home
+                    </a>
+                    <div class="nav-dropdown">
+                        <button class="nav-link dropdown-toggle">
+                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
+                                <polyline points="17 2 12 7 7 2"/>
+                            </svg>
+                            Browse
+                            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item active" data-type="movie">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+                                    <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
+                                </svg>
+                                Movies
+                            </button>
+                            <button class="dropdown-item" data-type="tv">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+                                    <rect x="2" y="7" width="20" height="13" rx="2"/>
+                                    <path d="M17 2l-5 5-5-5"/>
+                                </svg>
+                                TV Series
+                            </button>
+                            <button class="dropdown-item" data-type="anime">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <circle cx="9" cy="10" r="2" fill="#000"/>
+                                    <circle cx="15" cy="10" r="2" fill="#000"/>
+                                    <path d="M8 15 Q12 17 16 15" stroke="#000" fill="none" stroke-width="1.5"/>
+                                </svg>
+                                Anime
+                            </button>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <button class="nav-link dropdown-toggle">
+                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                            Genres
+                            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu genre-menu">
+                            <button class="dropdown-item" data-genre="28">Action</button>
+                            <button class="dropdown-item" data-genre="10759">Action & Adventure</button>
+                            <button class="dropdown-item" data-genre="12">Adventure</button>
+                            <button class="dropdown-item" data-genre="16">Animation</button>
+                            <button class="dropdown-item" data-genre="99">Documentary</button>
+                            <button class="dropdown-item" data-genre="18">Drama</button>
+                            <button class="dropdown-item" data-genre="10751">Family</button>
+                            <button class="dropdown-item" data-genre="14">Fantasy</button>
+                            <button class="dropdown-item" data-genre="36">History</button>
+                            <button class="dropdown-item" data-genre="27">Horror</button>
+                            <button class="dropdown-item" data-genre="10762">Kids</button>
+                            <button class="dropdown-item" data-genre="10402">Music</button>
+                            <button class="dropdown-item" data-genre="9648">Mystery</button>
+                            <button class="dropdown-item" data-genre="10763">News</button>
+                            <button class="dropdown-item" data-genre="10764">Reality</button>
+                            <button class="dropdown-item" data-genre="10749">Romance</button>
+                            <button class="dropdown-item" data-genre="10765">Sci-Fi & Fantasy</button>
+                            <button class="dropdown-item" data-genre="878">Science Fiction</button>
+                            <button class="dropdown-item" data-genre="10766">Soap</button>
+                            <button class="dropdown-item" data-genre="10767">Talk</button>
+                            <button class="dropdown-item" data-genre="53">Thriller</button>
+                            <button class="dropdown-item" data-genre="10770">TV Movie</button>
+                            <button class="dropdown-item" data-genre="10752">War</button>
+                            <button class="dropdown-item" data-genre="10768">War & Politics</button>
+                            <button class="dropdown-item" data-genre="37">Western</button>
+                            <button class="dropdown-item" data-genre="35">Comedy</button>
+                            <button class="dropdown-item" data-genre="80">Crime</button>
+                        </div>
+                    </div>
+                    <button class="nav-link" id="searchToggle">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                    </button>
+                    <button class="nav-link" id="settingsBtn">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6M1 12h6m6 0h6"/>
+                            <path d="m4.93 4.93 4.24 4.24m5.66 5.66 4.24 4.24M19.07 4.93l-4.24 4.24m-5.66 5.66-4.24 4.24"/>
+                        </svg>
+                    </button>
+                    <button class="nav-link user-btn" id="userBtn">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </button>
+                    <div class="user-dropdown">
+                        <div id="userMenu" class="user-menu">
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="7" r="4"/>
+                                        <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div id="userName" class="user-name">Guest</div>
+                                    <div id="userEmail" class="user-email">Not logged in</div>
+                                </div>
+                            </div>
+                            <div class="user-menu-divider"></div>
+                            <button class="user-menu-item" id="loginBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                                    <polyline points="10 17 15 12 10 7"/>
+                                    <line x1="15" y1="12" x2="3" y2="12"/>
+                                </svg>
+                                Login
+                            </button>
+                            <button class="user-menu-item" id="logoutBtn" style="display: none;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                    <polyline points="16 17 21 12 16 7"/>
+                                    <line x1="21" y1="12" x2="9" y2="12"/>
+                                </svg>
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Search Overlay -->
+        <div id="searchOverlay" class="search-overlay">
+                <button id="closeSearch" class="close-search">&times;</button>
+            <div class="search-page-header">
+                <h1 class="search-page-title">Step Into Your Next Blockbuster</h1>
+                <p class="search-page-subtitle">Dive into thousands of movies, series, and anime you’ll love.</p>
+                <div class="search-bar-container">
+                    <input type="text" id="searchInput" class="search-page-input" placeholder="Type here to search..." autofocus>
+                </div>
+            </div>
+            <div class="search-results-container">
+                <div class="search-results-header">
+                    <h2 id="searchResultsTitle">| Trending Today</h2>
+                    <p id="searchResultsCount" class="results-count">Loading...</p>
+                </div>
+                <div id="searchSuggestions" class="search-grid"></div>
+            </div>
+        </div>
+
+        <!-- Details Modal -->
+        <div id="detailsModal" class="modal">
+            <div class="modal-content details-modal-content">
+                <button class="close-btn" id="closeDetails">&times;</button>
+                <div id="detailsContent" class="details-content">
+                    <!-- Details will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Player Modal -->
+        <div id="playerModal" class="modal">
+            <button class="close-btn" id="closePlayer"></button>
+                <div class="player-container">
+                
+                <!-- Player Loading Overlay -->
+                <div id="playerLoading" class="player-loading">
+                    <div class="player-loading-content">
+                        <img id="playerPoster" src="" alt="Loading" class="player-loading-poster">
+                        <div class="player-loading-info">
+                            <h3 id="playerTitle">Loading...</h3>
+                            <div class="player-loading-spinner">
+                                <div class="spinner-ring"></div>
+                            </div>
+                            <p class="player-loading-text">Preparing your video...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <iframe id="videoPlayer" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture" loading="eager"></iframe>
+                
+                <!-- Mobile Controls Hint -->
+                <div id="mobileControlsHint" class="mobile-controls-hint">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    <p>Tap to show controls</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settingsModal" class="modal">
+            <div class="modal-content settings-content">
+                <button class="close-btn" id="closeSettings">&times;</button>
+                <h2>Player Settings</h2>
+                
+                <div class="settings-section">
+                    <h3>heme Color</h3>
+                    <div class="color-options">
+                        <button class="color-btn active" data-color="e50914" style="background: #e50914;" title="Netflix Red"></button>
+                        <button class="color-btn" data-color="0dcaf0" style="background: #0dcaf0;" title="Default Blue"></button>
+                        <button class="color-btn" data-color="ff0000" style="background: #ff0000;" title="YouTube Red"></button>
+                        <button class="color-btn" data-color="9146ff" style="background: #9146ff;" title="Twitch Purple"></button>
+                        <button class="color-btn" data-color="5865f2" style="background: #5865f2;" title="Discord Blue"></button>
+                        <button class="color-btn" data-color="1db954" style="background: #1db954;" title="Spotify Green"></button>
+                        <button class="color-btn" data-color="ff6b35" style="background: #ff6b35;" title="Orange"></button>
+                        <button class="color-btn" data-color="ff006e" style="background: #ff006e;" title="Pink"></button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Features</h3>
+                    <div class="feature-toggle">
+                        <label>
+                            <input type="checkbox" id="autoPlayToggle">
+                            <span>Auto Play</span>
+                            <small>Start playing automatically</small>
+                        </label>
+                    </div>
+                    <div class="feature-toggle">
+                        <label>
+                            <input type="checkbox" id="nextEpisodeToggle" checked>
+                            <span>Next Episode Button</span>
+                            <small>Show next episode button (TV only)</small>
+                        </label>
+                    </div>
+                    <div class="feature-toggle">
+                        <label>
+                            <input type="checkbox" id="episodeSelectorToggle" checked>
+                            <span>Episode Selector</span>
+                            <small>Enable episode selection menu (TV only)</small>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>🗑️ Data Management</h3>
+                    <button class="btn-danger" id="clearProgressBtn">Clear All Watch Progress</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Banner Section -->
+        <section class="hero-section">
+            <!-- Navigation Overlay -->
+            <nav class="hero-nav">
+                <div class="logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
+                        <circle cx="6" cy="8" r="1.5" opacity="0.7"/>
+                        <circle cx="12" cy="8" r="1.5" opacity="0.7"/>
+                        <circle cx="18" cy="8" r="1.5" opacity="0.7"/>
+                    </svg>
+                    <span class="logo-text">MOVY</span>
+                </div>
+                <div class="main-nav">
+                    <a href="#" class="nav-link" id="heroHomeLink">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        Home
+                    </a>
+                    <div class="nav-dropdown">
+                        <button class="nav-link dropdown-toggle">
+                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
+                                <polyline points="17 2 12 7 7 2"/>
+                            </svg>
+                            Browse
+                            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item active" data-type="movie">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+                                    <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
+                                </svg>
+                                Movies
+                            </button>
+                            <button class="dropdown-item" data-type="tv">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+                                    <rect x="2" y="7" width="20" height="13" rx="2"/>
+                                    <path d="M17 2l-5 5-5-5"/>
+                                </svg>
+                                TV Series
+                            </button>
+                            <button class="dropdown-item" data-type="anime">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <circle cx="9" cy="10" r="2" fill="#000"/>
+                                    <circle cx="15" cy="10" r="2" fill="#000"/>
+                                    <path d="M8 15 Q12 17 16 15" stroke="#000" fill="none" stroke-width="1.5"/>
+                                </svg>
+                                Anime
+                            </button>
+                        </div>
+                    </div>
+                    <div class="nav-dropdown">
+                        <button class="nav-link dropdown-toggle">
+                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                            Genres
+                            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu genre-menu">
+                            <button class="dropdown-item" data-genre="28">Action</button>
+                            <button class="dropdown-item" data-genre="10759">Action & Adventure</button>
+                            <button class="dropdown-item" data-genre="12">Adventure</button>
+                            <button class="dropdown-item" data-genre="16">Animation</button>
+                            <button class="dropdown-item" data-genre="99">Documentary</button>
+                            <button class="dropdown-item" data-genre="18">Drama</button>
+                            <button class="dropdown-item" data-genre="10751">Family</button>
+                            <button class="dropdown-item" data-genre="14">Fantasy</button>
+                            <button class="dropdown-item" data-genre="36">History</button>
+                            <button class="dropdown-item" data-genre="27">Horror</button>
+                            <button class="dropdown-item" data-genre="10762">Kids</button>
+                            <button class="dropdown-item" data-genre="10402">Music</button>
+                            <button class="dropdown-item" data-genre="9648">Mystery</button>
+                            <button class="dropdown-item" data-genre="10763">News</button>
+                            <button class="dropdown-item" data-genre="10764">Reality</button>
+                            <button class="dropdown-item" data-genre="10765">Sci-Fi & Fantasy</button>
+                            <button class="dropdown-item" data-genre="878">Science Fiction</button>
+                            <button class="dropdown-item" data-genre="10766">Soap</button>
+                            <button class="dropdown-item" data-genre="10767">Talk</button>
+                            <button class="dropdown-item" data-genre="53">Thriller</button>
+                            <button class="dropdown-item" data-genre="10768">War & Politics</button>
+                            <button class="dropdown-item" data-genre="37">Western</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-actions">
+                    <button class="search-btn" id="heroSearchToggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                    </button>
+                    <button class="settings-btn" id="heroSettingsBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6M5.6 5.6l4.2 4.2m4.2 4.2l4.2 4.2M1 12h6m6 0h6M5.6 18.4l4.2-4.2m4.2-4.2l4.2-4.2"/>
+                        </svg>
+                    </button>
+                    <div class="user-dropdown-container">
+                        <button class="user-btn" id="heroUserBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </button>
+                        <div class="user-dropdown" id="heroUserDropdown">
+                            <div class="user-menu">
+                                <div class="user-info">
+                                    <div class="user-avatar">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="7" r="4"/>
+                                            <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div id="heroUserName" class="user-name">Guest</div>
+                                        <div id="heroUserEmail" class="user-email">Not logged in</div>
+                                    </div>
+                                </div>
+                                <button id="heroLoginBtn" class="menu-item">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                                        <polyline points="10 17 15 12 10 7"/>
+                                        <line x1="15" y1="12" x2="3" y2="12"/>
+                                    </svg>
+                                    Login
+                                </button>
+                                <button id="heroLogoutBtn" class="menu-item" style="display: none;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                        <polyline points="16 17 21 12 16 7"/>
+                                        <line x1="21" y1="12" x2="9" y2="12"/>
+                                    </svg>
+                                    Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="hero-slider" id="heroSlider">
+                <!-- Hero slides will be dynamically loaded -->
+            </div>
+            <div class="hero-controls">
+                <button class="hero-dot active" data-index="0"></button>
+                <button class="hero-dot" data-index="1"></button>
+                <button class="hero-dot" data-index="2"></button>
+                <button class="hero-dot" data-index="3"></button>
+                <button class="hero-dot" data-index="4"></button>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="container">
+            <!-- Continue Watching Section -->
+            <section id="continueWatching" class="continue-watching-section hidden">
+                <h2><span class="section-separator">|</span> Continue Watching</h2>
+                <div class="carousel-container">
+                    <button class="carousel-btn carousel-btn-left" id="continueWatchingLeft">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"/>
+                        </svg>
+                    </button>
+                    <div id="continueWatchingContent" class="content-carousel"></div>
+                    <button class="carousel-btn carousel-btn-right" id="continueWatchingRight">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Featured Section -->
+            <section class="featured-section">
+                <h2><span class="section-separator">|</span> Trending Now</h2>
+                <div id="featuredContent" class="content-grid"></div>
+            </section>
+
+            <!-- Popular Section -->
+            <section class="popular-section">
+                <h2><span class="section-separator">|</span> Popular</h2>
+                <div id="popularContent" class="content-grid"></div>
+            </section>
+
+            <!-- Search Results -->
+            <section id="searchResults" class="search-results hidden">
+                <h2><span class="section-separator">|</span> Search Results</h2>
+                <div id="searchContent" class="content-grid"></div>
+            </section>
+        </main>
+
+        <!-- Login/Signup Modal -->
+        <div id="authModal" class="modal">
+            <div class="modal-content auth-modal">
+                <button class="close-btn" id="closeAuth">&times;</button>
+                <div id="authContent">
+                    <!-- Login Form -->
+                    <div id="loginForm" class="auth-form">
+                        <h2>Welcome Back</h2>
+                        <p class="auth-subtitle">Sign in to continue watching</p>
+                        <form id="loginFormSubmit">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="loginEmail" required placeholder="Enter your email">
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" id="loginPassword" required placeholder="Enter your password">
+                            </div>
+                            <button type="submit" class="btn-primary">Sign In</button>
+                        </form>
+                        <p class="auth-switch">
+                            Don't have an account? <a href="#" id="showSignup">Sign up</a>
+                        </p>
+                    </div>
+
+                    <!-- Signup Form -->
+                    <div id="signupForm" class="auth-form hidden">
+                        <h2>Create Account</h2>
+                        <p class="auth-subtitle">Join MOVY today</p>
+                        <form id="signupFormSubmit">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="signupName" required placeholder="Enter your full name">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="signupEmail" required placeholder="Enter your email">
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" id="signupPassword" required placeholder="Create a password" minlength="6">
+                            </div>
+                            <button type="submit" class="btn-primary">Create Account</button>
+                        </form>
+                        <p class="auth-switch">
+                            Already have an account? <a href="#" id="showLogin">Sign in</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Alert Modal -->
+        <div id="customAlert" class="custom-alert-overlay">
+            <div class="custom-alert">
+                <div class="alert-icon" id="alertIcon"></div>
+                <h3 id="alertTitle">Alert</h3>
+                <p id="alertMessage">Message</p>
+                <button class="alert-btn" id="alertBtn">OK</button>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-branding">
+                        <svg class="footer-logo" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
+                            <circle cx="6" cy="8" r="1.5" opacity="0.7"/>
+                            <circle cx="12" cy="8" r="1.5" opacity="0.7"/>
+                            <circle cx="18" cy="8" r="1.5" opacity="0.7"/>
+                        </svg>
+                        <span class="footer-logo-text">MOVY</span>
+                    </div>
+                    <div class="footer-info">
+                        <p class="footer-tagline">Your Ultimate Streaming Experience</p>
+                        <div class="footer-developer">
+                            <p class="developer-label">Developed by</p>
+                            <p class="developer-name">Jemboy Aresgado</p>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <p class="footer-copyright">© 2025 MOVY. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Mobile Bottom Navigation -->
+        <nav class="mobile-bottom-nav">
+            <button class="mobile-nav-item" id="mobileHomeBtn">
+                <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span class="mobile-nav-label">Home</span>
+            </button>
+            <button class="mobile-nav-item" id="mobileSearchBtn">
+                <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="m21 21-4.35-4.35"/>
+                </svg>
+                <span class="mobile-nav-label">Search</span>
+            </button>
+            <button class="mobile-nav-item" id="mobileBrowseBtn">
+                <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
+                    <polyline points="17 2 12 7 7 2"/>
+                </svg>
+                <span class="mobile-nav-label">Browse</span>
+            </button>
+            <button class="mobile-nav-item" id="mobileUserBtn">
+                <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span class="mobile-nav-label">Profile</span>
+            </button>
+        </nav>
+        
+        <!-- Mobile Browse Backdrop -->
+        <div class="mobile-browse-backdrop" id="mobileBrowseBackdrop"></div>
+        
+        <!-- Mobile Browse Sheet -->
+        <div class="mobile-browse-sheet" id="mobileBrowseSheet">
+            <div class="mobile-browse-header">
+                <h3>Browse Content</h3>
+                <button class="mobile-browse-close" id="mobileBrowseClose">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="mobile-browse-content">
+                <div class="mobile-browse-section">
+                    <h4>Category</h4>
+                    <button class="mobile-browse-btn dropdown-item active" data-type="movie">Movies</button>
+                    <button class="mobile-browse-btn dropdown-item" data-type="tv">TV Series</button>
+                    <button class="mobile-browse-btn dropdown-item" data-type="anime">Anime</button>
+                </div>
+                <div class="mobile-browse-section">
+                    <h4>Genres</h4>
+                    <div class="mobile-genre-grid">
+                        <button class="mobile-genre-btn" data-genre="28">Action</button>
+                        <button class="mobile-genre-btn" data-genre="12">Adventure</button>
+                        <button class="mobile-genre-btn" data-genre="16">Animation</button>
+                        <button class="mobile-genre-btn" data-genre="35">Comedy</button>
+                        <button class="mobile-genre-btn" data-genre="80">Crime</button>
+                        <button class="mobile-genre-btn" data-genre="99">Documentary</button>
+                        <button class="mobile-genre-btn" data-genre="18">Drama</button>
+                        <button class="mobile-genre-btn" data-genre="10751">Family</button>
+                        <button class="mobile-genre-btn" data-genre="14">Fantasy</button>
+                        <button class="mobile-genre-btn" data-genre="27">Horror</button>
+                        <button class="mobile-genre-btn" data-genre="9648">Mystery</button>
+                        <button class="mobile-genre-btn" data-genre="10749">Romance</button>
+                        <button class="mobile-genre-btn" data-genre="878">Sci-Fi</button>
+                        <button class="mobile-genre-btn" data-genre="53">Thriller</button>
+                        <button class="mobile-genre-btn" data-genre="37">Western</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile User Menu Sheet -->
+        <div class="mobile-user-sheet" id="mobileUserSheet">
+            <div class="mobile-user-header">
+                <h3>Profile</h3>
+                <button class="mobile-user-close" id="mobileUserClose">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="mobile-user-content">
+                <div class="mobile-user-avatar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="7" r="4"/>
+                        <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                    </svg>
+                </div>
+                <div class="mobile-user-info">
+                    <h4 id="mobileUserName">Guest</h4>
+                    <p id="mobileUserEmail">Not logged in</p>
+                </div>
+                <div class="mobile-user-actions">
+                    <button class="mobile-user-btn" id="mobileLoginBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                            <polyline points="10 17 15 12 10 7"/>
+                            <line x1="15" y1="12" x2="3" y2="12"/>
+                        </svg>
+                        Login
+                    </button>
+                    <button class="mobile-user-btn danger" id="mobileLogoutBtn" style="display: none;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
+
