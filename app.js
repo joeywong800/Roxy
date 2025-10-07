@@ -1,5 +1,5 @@
 // Configuration
-const TMDB_API_KEY = '9221f91f2ced18af85c11c9599690868'; // Get free API key from https://www.themoviedb.org/settings/api
+const TMDB_API_KEY = 'bbbb5a007088a76226b3f08a2e264e24'; // Get free API key from https://www.themoviedb.org/settings/api
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 const VIDKING_BASE_URL = 'https://www.vidking.net';
